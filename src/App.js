@@ -1,11 +1,25 @@
-import React from 'react';
-
+import React from "react";
+import Navbar from "./Navbar";
+import CategoryList from "./CategoryList";
+import CategoryContent from "./CategoryContent";
+import { Container, Row, Col } from "reactstrap";
 
 function App() {
   return (
-    <div className="App">
-      <h5>Hello World And Weolcome to React World!!!</h5>
-
+    <div>
+      <Container>
+        <Row>
+          <Navbar />
+        </Row>
+        <Row>
+          <Col xs="3">
+            <CategoryList />
+          </Col>
+          <Col xs="9">
+            <CategoryContent />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
