@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
 
 export default class CategoryContent extends Component {
+
+  
   render() {
     return (
       <div>
@@ -11,9 +13,10 @@ export default class CategoryContent extends Component {
           <thead>
             <tr>
               <th>#</th>
-              <th>First Name</th>
+              <th>{this.props.basket.length}</th>
               <th>Last Name</th>
               <th>Username</th>
+              <th>Basket</th>
             </tr>
           </thead>
           <tbody>
@@ -23,11 +26,17 @@ export default class CategoryContent extends Component {
                 <td>{product.productName}</td>
                 <td>{product.unitPrice}</td>
                 <td>{product.unitsInStock}</td>
+                <td><Button 
+                onClick={()=>this.props.addToCart(product)}
+                 color="success">add</Button></td>
               </tr>
             ))}
           </tbody>
+       
         </Table>
+        
       </div>
+      
     );
   }
 }

@@ -1,12 +1,12 @@
 // import React from "react";
 import React, { Component } from "react";
-import Navbar from "./Navbar";
+import Navi from "./Navi";
 import CategoryList from "./CategoryList";
 import CategoryContent from "./CategoryContent";
 import { Container, Row, Col } from "reactstrap";
 
 export default class App extends Component {
-  state = { currentCategory: "", products: [] };
+  state = { currentCategory: "", products: [], basket:[] };
   componentDidMount() {
     this.getProducts();
   }
@@ -14,11 +14,22 @@ export default class App extends Component {
     this.setState({ currentCategory: category.categoryName });
     this.getProducts(category.id);
   };
-
+  addToCart=(product)=>{
+    let newBasket=this.state.basket;
+    var addedItem = newBasket.find(c => c.product.id === product.id);
+    if (addedItem) {
+      addedItem.quantity += 1;
+    } else {
+       newBasket.push({product:product,quantity:1});
+    }
+   
+    this.setState({basket:newBasket});
+    
+  }
   getProducts = (categoryId) => {
     let url = "http://localhost:3000/products";
     if (categoryId) {
-      url += "?categoryId" + categoryId;
+      url += "?categoryId=" + categoryId;
     }
     fetch(url) //api-a fetch ile gosurug
       .then((response) => response.json()) // gelen datani json a ceviririk
@@ -31,7 +42,8 @@ export default class App extends Component {
       <div>
         <Container>
           <Row>
-            <Navbar />
+            <Navi 
+            basket={this.state.basket} />
           </Row>
           <Row>
             <Col xs="3">
@@ -44,8 +56,10 @@ export default class App extends Component {
             <Col xs="9">
               <CategoryContent
                 products={this.state.products}
+                addToCart={this.addToCart}
                 currentCategory={this.state.currentCategory}
                 info={contentInfo}
+                basket={this.state.basket}
               />
             </Col>
           </Row>
